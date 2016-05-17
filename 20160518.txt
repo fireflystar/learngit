@@ -1,0 +1,63 @@
+{ d }  » mkdir learn   创建一个新的文件夹，没有必要和远程库learngit同名                      
+{ d }  » cd learn                                                                     
+{ learn }  » git init  初始化git                                                         
+Initialized empty Git repository in /cygdrive/d/learn/.git/
+{ learn } HEAD » git remote add origin https://github.com/fireflystar/learngit.git   和远程库learngit建立关联
+{ learn } HEAD » touch 20160518.txt                                           
+编辑文件内容
+{ learn } HEAD » git push origin master                                         /cygdrive/d/learn
+error: src refspec master does not match any.
+error: failed to push some refs to 'https://github.com/fireflystar/learngit.git'	报错
+原因: 本地版本库为空, 空目录不能提交 (只进行了init, 没有add和commit)
+
+{ learn } HEAD » git add 20160518.txt                                           /cygdrive/d/learn
+{ learn } HEAD » git commit -m '必须git add 和 git commit之后才能提交文件到远程端'
+[master (root-commit) b0f090d] 必须git add 和 git commit之后才能提交文件到远程端
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 20160518.txt
+{ learn } master » git push origin master                                       /cygdrive/d/learn
+To https://github.com/fireflystar/learngit.git
+ ! [rejected]        master -> master (fetch first)
+error: failed to push some refs to 'https://github.com/fireflystar/learngit.git'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.			提示必须先pull再push
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+{ learn } master » git pull origin master                                     /cygdrive/d/learn 1
+From https://github.com/fireflystar/learngit
+ * branch            master     -> FETCH_HEAD
+warning: Cannot merge binary files: 20160518.txt (HEAD vs. 32a2aa557ea7ecc9b71c0c7ad82a46f5bdc6e6ff)
+Auto-merging 20160518.txt
+CONFLICT (add/add): Merge conflict in 20160518.txt
+Automatic merge failed; fix conflicts and then commit the result.
+{ learn } master » ls                                                         /cygdrive/d/learn 1
+20160518.txt  file1.txt  file2.txt  file3.txt  readme.txt			
+
+
+git pull origin master  和 git fetch origin master    的结果不同
+git push origin master	仍旧没法提交到远程端
+git push -f origin master	远程端内容被强行覆盖
+
+
+---------------------------------------------------------------------
+{ learngit } master » git remote add origin https://github.com/fireflystar/learngit.git      建立一次关联
+{ learngit } master » git push -u origin master                                      推送
+Username for 'https://github.com':                     输入账号
+Password for 'https://rofl@live.cn@github.com':           输入密码
+Counting objects: 2, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (2/2), 282 bytes | 0 bytes/s, done.
+Total 2 (delta 1), reused 0 (delta 0)
+To https://github.com/fireflystar/learngit.git
+   4371b70..32a2aa5  master -> master
+Branch master set up to track remote branch master from origin.      push成功
+
+
+
+只要本地客户端 Terminal 中建立了一次  本地端和远程端的  关联，保持Terminal开启。
+从现在起，只要本地作了提交，就可以通过命令：
+git push origin master
+把本地master分支的最新修改推送至GitHub，现在，你就拥有了真正的分布式版本库
